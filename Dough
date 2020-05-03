@@ -1,0 +1,91 @@
+import java.util.HashMap;
+import java.util.Map;
+
+class Dough {
+	private String strType;
+	private String strBaking;
+	private int iWeight;
+
+	private final Map doughType = new HashMap<String, Double>() {
+		{
+			put("White", 1.5);
+			put("Wholegrain", 1.0);
+		}
+	};
+
+	private final Map techniques = new HashMap<String, Double>() {
+		{
+			put("Crispy", 0.9);
+			put("Chewy", 1.1);
+			put("Homemade", 1.0);
+		}
+	};
+
+	public Dough(String type, String baking, int weight) {
+		this.setType(type);
+		this.setBaking(baking);
+		this.setWeight(weight);
+	}
+
+	public void setType(String type) {
+		if (doughType.containsKey(type))
+			this.strType = type;
+		else
+			throw new IllegalArgumentException("Invalid type of dough.");
+	}
+
+	public void setBaking(String baking) {
+		if (techniques.containsKey(baking))
+			this.strBaking = baking;
+		else
+			throw new IllegalArgumentException("Invalid type of dough.");
+	}
+
+	public void setWeight(int weight) {
+		if (weight >= 1 && weight <= 100)
+			this.iWeight = weight;
+		else
+			throw new IllegalArgumentException("Dough weight should be in the range [1..200].");
+	}
+
+	public double calculateCalories() {
+		return ((double) doughType.get(this.strType) * (double) techniques.get(this.strBaking) * (2 * this.iWeight));
+	}
+}
+
+class Topping {
+	private String strToppingType;
+	private int iWeight;
+
+	private final Map topping = new HashMap<String, Double>() {
+		{
+			put("Meat", 1.2);
+			put("Veggies", 0.8);
+			put("Cheese", 1.1);
+			put("Sauce", 0.9);
+		}
+	};
+
+	public Topping(String type, int weight) {
+		this.setToppingType(type);
+		this.setWeight(weight);
+	}
+
+	public void setToppingType(String type) {
+		if (topping.containsKey(type)) {
+			this.strToppingType = type;
+		} else
+			throw new IllegalArgumentException("Cannot place " + type + " on top of your pizza.");
+	}
+
+	public void setWeight(int weight) {
+		if (weight >= 1 && weight <= 50)
+			this.iWeight = weight;
+		else
+			throw new IllegalArgumentException(this.strToppingType + " weight should be in the range [1..50].");
+	}
+
+	public double calculateCalories() {
+		return ((double) topping.get(this.strToppingType) * (2 * this.iWeight));
+	}
+}
